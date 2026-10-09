@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QR Studio · Browser smoke tests</title>
+<style>
+:root{color-scheme:dark;background:#0b1020;color:#f4f6fb;font:14px system-ui,sans-serif}body{max-width:900px;margin:40px auto;padding:0 20px}h1{font-size:28px}p{color:#9aa7be;line-height:1.6}.summary{padding:14px 16px;border:1px solid #26324a;border-radius:12px;margin:18px 0}.pass{color:#c7f36b}.fail{color:#ff978b}ol{padding-left:24px}li{padding:7px 0;border-bottom:1px solid #26324a}.muted{color:#9aa7be;font-size:12px}iframe{width:100%;height:760px;border:1px solid #26324a;border-radius:12px;background:#0b1020;margin-top:20px}button{background:#c7f36b;color:#18200d;border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>QR Studio · Browser smoke tests</h1>
+<p>This is a manual-triggered smoke suite that exercises the actual app inside an iframe. It verifies core UI behavior in your browser; it does not replace scanning exported QR PNGs with a physical device.</p>
+<button id="run">Run smoke tests</button>
+<div id="summary" class="summary">Ready. Click “Run smoke tests” to begin.</div>
+<ol id="results"></ol>
+<iframe id="app" title="QR Studio application under test" src="../index.html"></iframe>
+<script>
+(() => {
+  const $ = (selector) => document.querySelector(selector);
+  const results = [];
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  function record(name, ok, detail = '') { results.push({name, ok, detail}); }
+  function app() { return $('#app').contentWindow; }
+  function assert(name, condition, detail = '') { record(name, Boolean(condition), detail); if (!condition) throw new Error(name + (detail ? ': ' + detail : '')); }
+  function setValue(selector, value, eventName = 'input') {
+    const el = app().document.querySelector(selector);
+    if (!el) throw new Error('Missing control ' + selector);
+    el.value = value; el.dispatchEvent(new app().Event(eventName, {bubbles:true}));
+  }
+  async function run() {
+    $('#results').innerHTML = '';
+    $('#summary').textContent = 'Running…';
+    results.length = 0;
+    const w = app(), d = w.document;
+    try {
+      await new Promise((resolve, reject) => {
+        const started = Date.now();
+        const poll = () => {
+          if (w.QRStudioTest && w.QRCode && (d.querySelector('#qrcode canvas') || d.querySelector('#qrcode img'))) return resolve();
+          if (Date.now() - started > 10000) return reject(new Error('The app or QR rendering library did not load within 10 seconds.'));
+          setTimeout(poll, 100);
+        };
+        poll();
+      });
+      assert('App initializes and renders a QR preview', Boolean(d.querySelector('#qrcode canvas, #qrcode img')));
+      d.querySelector('[data-type="text"]').click();
+      setValue('#text', 'QR Studio smoke test');
+      await sleep(120);
+      assert('Plain text produces a preview', Boolean(d.querySelector('#qrcode canvas, #qrcode img')));
+      d.querySelector('[data-type="email"]').click();
+      setValue('#email', 'not-an-email');
+      assert('Invalid email blocks download', d.querySelector('#downloadBtn').disabled);
+      setValue('#email', 'test@example.com');
+      assert('Valid email re-enables download', !d.querySelector('#downloadBtn').disabled);
+      d.querySelector('[data-type="phone"]').click();
+      assert('Phone type produces a payload', w.QRStudioTest.buildPayload(w.QRStudioTest.getValues()).value.startsWith('tel:'));
+      d.querySelector('[data-type="wifi"]').click();
+      assert('Wi-Fi type uses the Wi-Fi payload format', w.QRStudioTest.buildPayload(w.QRStudioTest.getValues()).value.startsWith('WIFI:'));
+      setValue('#fg', '#ffffff');
+      assert('Low contrast warning is shown', !d.querySelector('#warning').classList.contains('hidden'));
+      setValue('#fg', '#111827');
+      setValue('#margin', '0');
+      assert('Small quiet-zone warning is shown', !d.querySelector('#warning').classList.contains('hidden'));
+      d.querySelector('[data-preset="forest"]').click();
+      assert('Style preset updates colors', d.querySelector('#fg').value.toLowerCase() === '#174d3c');
+      const originalAnchorClick = w.HTMLAnchorElement.prototype.click;
+      w.HTMLAnchorElement.prototype.click = function(){};
+      d.querySelector('#downloadBtn').click();
+      w.HTMLAnchorElement.prototype.click = originalAnchorClick;
+      const saved = JSON.parse(w.localStorage.getItem('qr-studio-history-v1') || '[]');
+      assert('Download action saves history to localStorage', saved.length > 0);
+      d.querySelector('#themeToggle').click();
+      assert('Theme toggle switches to light mode', d.body.classList.contains('light'));
+      d.querySelector('#themeToggle').click();
+    } catch (e) {
+      record('Suite stopped', false, e.message || String(e));
+    }
+    $('#results').innerHTML = results.map(item => '<li class="' + (item.ok ? 'pass' : 'fail') + '">' + (item.ok ? 'PASS' : 'FAIL') + ' — ' + item.name + (item.detail ? '<div class="muted">' + item.detail.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) + '</div>' : '') + '</li>').join('');
+    const passed = results.filter(x => x.ok).length;
+    const failed = results.length - passed;
+    $('#summary').textContent = passed + ' passed · ' + failed + ' failed';
+    $('#summary').className = 'summary ' + (failed ? 'fail' : 'pass');
+  }
+  $('#run').addEventListener('click', run);
+})();
+</script>
+</body>
+</html>
