@@ -29,6 +29,10 @@ Then visit `http://localhost:8000`.
 
 This is a static site and can be deployed directly to Vercel. No build command or server-side environment variables are required.
 
+## Browser smoke tests
+
+Serve the project and open `/tests/smoke.html`, then click **Run smoke tests**. The suite exercises the real page in an iframe and checks initialization, text/email/phone/Wi-Fi payloads, invalid-email handling, scanability warnings, style presets, local history persistence, and theme switching. It runs entirely in the browser and has no test-framework dependency.
+
 ## Testing checklist
 
 - [ ] URL accepts `example.com` and normalizes to HTTPS; malformed URLs show an error.
