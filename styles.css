@@ -80,3 +80,62 @@ footer{border-top:1px solid #d9c8c7;color:#685d70}
 .light .brand{color:#29233a}
 .light .topbar{border-color:#29233a}
 @media(max-width:680px){.hero{padding:43px 0 32px}h1{letter-spacing:-2px}.panel,.preview-card,.history-card{box-shadow:5px 6px 0 #29233a}.type-btn,.preset{box-shadow:2px 2px 0 #29233a}.type-btn{padding:10px 3px}}
+
+
+/* Explicit dark-theme layer. The toggle switches between Art School '16 and the original midnight palette. */
+body.dark{color-scheme:dark;--bg:#0b1020;--panel:#11182b;--panel2:#151e33;--line:#26324a;--text:#f4f6fb;--muted:#8d9ab3;--soft:#b9c4d8;--accent:#c7f36b;--accent-ink:#16200c;--danger:#ffb5a8;--shadow:0 22px 70px #0003;background:radial-gradient(ellipse at 50% -25%,#263457 0%,transparent 52%),#0b1020;color:#f4f6fb}
+body.dark .topbar{border-bottom:1px solid #ffffff10}
+body.dark .brand{color:#f4f6fb}
+body.dark .brand-accent,body.dark h1 span{color:#c7f36b;text-shadow:none;transform:none}
+body.dark .brand small,body.dark .top-actions,body.dark .hero p,body.dark .step-label,body.dark .text-btn,body.dark .field .field-hint,body.dark .range-wrap output,body.dark .color-picker span,body.dark .preview-caption,body.dark .preview-meta,body.dark .privacy-note,body.dark footer{color:#8d9ab3}
+body.dark .brand-mark i{border-color:#c7f36b;background:transparent}
+body.dark .brand-mark i:nth-child(2),body.dark .brand-mark i:nth-child(3){opacity:.45;background:transparent}
+body.dark .status-dot,body.dark .live-indicator i{background:#c7f36b;box-shadow:0 0 12px #c7f36b70}
+body.dark .icon-btn{background:#11182b;color:#f4f6fb;border:1px solid #26324a;border-radius:10px;box-shadow:none}
+body.dark .eyebrow{background:transparent;color:#c7f36b;box-shadow:none;transform:none;padding:0}
+body.dark .spark{color:#c7f36b}
+body.dark .panel,body.dark .preview-card,body.dark .history-card{background:linear-gradient(145deg,#141d31,#101728);border:1px solid #26324a;border-radius:18px;box-shadow:0 22px 70px #0003}
+body.dark .panel-heading h2,body.dark .history-heading h3{color:#f4f6fb}
+body.dark .tiny-pill{color:#c7f36b;background:#c7f36b12;border:1px solid #c7f36b33;border-radius:5px}
+body.dark .type-btn,body.dark .preset{background:#0d1425!important;border:1px solid #26324a!important;border-radius:10px!important;box-shadow:none;color:#8d9ab3!important}
+body.dark .type-btn span{color:#b9c4d8!important}
+body.dark .type-btn.active{background:#c7f36b12!important;border-color:#c7f36b!important;color:#c7f36b!important;transform:none}
+body.dark .type-btn.active span{color:#c7f36b!important}
+body.dark .type-btn:hover,body.dark .preset:hover{background:#172238!important;color:#f4f6fb!important;transform:none;box-shadow:none}
+body.dark .preset.active{background:#c7f36b12!important;border-color:#c7f36b!important;color:#f4f6fb!important;transform:none}
+body.dark .preset .swatches i{border:1px solid #ffffff50}
+body.dark .field label,body.dark .color-control label,body.dark .control-row>label,body.dark .preset-block>label{color:#b9c4d8}
+body.dark .field input,body.dark .field textarea,body.dark .field select,body.dark .control-row select{background:#0b1221;color:#f4f6fb;border:1px solid #26324a;border-radius:9px}
+body.dark .field input::placeholder,body.dark .field textarea::placeholder{color:#8d9ab3}
+body.dark .field input:focus,body.dark .field textarea:focus,body.dark .control-row select:focus{border-color:#c7f36b;outline:0}
+body.dark .text-btn:hover{color:#c7f36b}
+body.dark .section-rule{background:#26324a}
+body.dark .color-picker{background:#0b1221;border:1px solid #26324a;border-radius:9px}
+body.dark .color-picker input::-webkit-color-swatch{border:1px solid #ffffff30}
+body.dark .control-row select{border-radius:9px}
+body.dark .qr-stage{background:radial-gradient(circle,#1d2a42 0%,#111a2c 70%);border:1px solid #293750;border-radius:15px;box-shadow:none}
+body.dark .qr-frame{border:0;border-radius:8px;box-shadow:0 8px 28px #0004}
+body.dark .scan-corner{border-color:#c7f36b}
+body.dark .preview-meta{border-top:1px solid #26324a}
+body.dark .meta-dot{background:#c7f36b}
+body.dark .download-btn{background:#c7f36b;color:#16200c;border:0;border-radius:10px;box-shadow:none}
+body.dark .download-btn:hover{filter:brightness(1.07);transform:translateY(-1px);box-shadow:none}
+body.dark .secondary-btn{background:transparent;color:#b9c4d8;border:1px solid #26324a;border-radius:9px}
+body.dark .secondary-btn:hover{border-color:#c7f36b;color:#c7f36b;background:transparent}
+body.dark .privacy-note span{color:#c7f36b}
+body.dark .count-badge{background:#26324a;color:#b9c4d8;border:0;border-radius:5px}
+body.dark .empty-history>span{color:#4b5c7a}
+body.dark .empty-history p{color:#b9c4d8}
+body.dark .empty-history small{color:#8d9ab3}
+body.dark .history-item{background:#0c1424;border:1px solid #26324a;border-radius:9px}
+body.dark .history-info strong{color:#f4f6fb}
+body.dark .history-info small{color:#8d9ab3}
+body.dark .history-load{background:transparent;color:#b9c4d8;border:1px solid #26324a;border-radius:6px}
+body.dark .history-load:hover{border-color:#c7f36b;color:#c7f36b;background:transparent}
+body.dark footer{border-top:1px solid #ffffff10}
+body.dark .footer-dot{color:#c7f36b}
+body.dark .toast{background:#c7f36b;color:#16200c;border:0;border-radius:9px}
+body.dark .warning{background:#ffb75b0c;border:1px solid #ffb75b42;border-radius:10px;color:#ffcf89}
+body.dark .warning p{color:#b9c4d8}
+body.dark .noscript{color:#fff;background:#922}
+@media(max-width:680px){body.dark .panel,body.dark .preview-card,body.dark .history-card{box-shadow:none}body.dark .type-btn,body.dark .preset{box-shadow:none}}
