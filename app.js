@@ -2,13 +2,13 @@
 'use strict';
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
-const KEY = 'qr-studio-history-v1';
+const KEY = 'pixelqr-history-v1';
 const defaults = {type:'url',size:280,fg:'#111827',bg:'#ffffff',ecc:'M',margin:2};
 const state = {...defaults};
 let qr = null, toastTimer = null, currentValue = '', history = readHistory();
 const types = {
  url:{label:'URL',fields:[{id:'url',label:'Website URL',placeholder:'https://example.com',type:'url',value:'https://developers.google.com'}]},
- text:{label:'Plain text',fields:[{id:'text',label:'Your message',placeholder:'Write something worth sharing…',type:'textarea',value:'Hello from QR Studio!'}]},
+ text:{label:'Plain text',fields:[{id:'text',label:'Your message',placeholder:'Write something worth sharing…',type:'textarea',value:'Hello from PixelQR!'}]},
  email:{label:'Email',fields:[{id:'email',label:'Email address',placeholder:'hello@example.com',type:'email',value:'hello@example.com'},{id:'subject',label:'Subject (optional)',placeholder:'Let’s connect',value:''},{id:'body',label:'Message (optional)',placeholder:'Hi there…',type:'textarea',value:''}]},
  phone:{label:'Phone',fields:[{id:'phone',label:'Phone number',placeholder:'+91 98765 43210',type:'tel',value:'+919876543210'}]},
  wifi:{label:'Wi-Fi',fields:[{id:'ssid',label:'Network name (SSID)',placeholder:'Your Wi-Fi name',value:'Studio WiFi'},{id:'password',label:'Password',placeholder:'Network password',type:'password',value:'scan-me-123'},{id:'encryption',label:'Security type',type:'select',options:[['WPA','WPA / WPA2 / WPA3'],['WEP','WEP'],['nopass','No password']],value:'WPA'},{id:'hidden',label:'Hidden network',type:'checkbox',value:false}]}
@@ -62,7 +62,7 @@ function update(){
  try{qr=new QRCode(box,{text:payload.value,width:state.size,height:state.size,colorDark:state.fg,colorLight:state.bg,correctLevel:correction()});$('#downloadBtn').disabled=false;$('#downloadBtn').style.opacity='1'}catch(e){box.innerHTML='<p style="padding:16px;color:#b44">This content is too large to encode. Shorten it and try again.</p>';currentValue=''}
 }
 function downloadCanvas(){const source=$('#qrcode').querySelector('canvas');if(!source)return null;const inset=state.margin*4;const canvas=document.createElement('canvas');canvas.width=state.size+inset*2;canvas.height=state.size+inset*2;const ctx=canvas.getContext('2d');ctx.fillStyle=state.bg;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=false;ctx.drawImage(source,inset,inset,state.size,state.size);return canvas}
-function download(){if(!currentValue){showToast('Complete the fields first.');return}const c=downloadCanvas();if(!c){showToast('QR preview is not ready yet.');return}const a=document.createElement('a');a.download='qr-studio-'+state.type+'-'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click();const values=getValues();history.unshift({id:Date.now(),type:state.type,value:currentValue,caption:$('#previewCaption').textContent,values,settings:{size:state.size,fg:state.fg,bg:state.bg,ecc:state.ecc,margin:state.margin},created:new Date().toISOString()});history=history.filter((x,i,arr)=>arr.findIndex(y=>y.value===x.value&&JSON.stringify(y.settings)===JSON.stringify(x.settings))===i).slice(0,8);saveHistory();renderHistory();showToast('PNG downloaded · saved to recent creations')}
+function download(){if(!currentValue){showToast('Complete the fields first.');return}const c=downloadCanvas();if(!c){showToast('QR preview is not ready yet.');return}const a=document.createElement('a');a.download='pixelqr-'+state.type+'-'+Date.now()+'.png';a.href=c.toDataURL('image/png');a.click();const values=getValues();history.unshift({id:Date.now(),type:state.type,value:currentValue,caption:$('#previewCaption').textContent,values,settings:{size:state.size,fg:state.fg,bg:state.bg,ecc:state.ecc,margin:state.margin},created:new Date().toISOString()});history=history.filter((x,i,arr)=>arr.findIndex(y=>y.value===x.value&&JSON.stringify(y.settings)===JSON.stringify(x.settings))===i).slice(0,8);saveHistory();renderHistory();showToast('PNG downloaded · saved to recent creations')}
 function renderHistory(){const host=$('#historyList');$('#historyCount').textContent=history.length;host.innerHTML=history.length?history.map(item=>'<div class="history-item"><div class="history-thumb" id="thumb-'+item.id+'"></div><div class="history-info"><strong>'+esc(item.caption||item.type.toUpperCase())+'</strong><small>'+esc(item.type.toUpperCase())+' · '+new Date(item.created).toLocaleDateString()+'</small></div><button class="history-load" data-load="'+item.id+'">Load ↗</button></div>').join(''):'<div class="empty-history"><span>◌</span><p>Your next great QR code starts here.</p><small>Generated codes will appear here.</small></div>';
  history.forEach(item=>{const host=$('#thumb-'+item.id);if(!host||typeof QRCode==='undefined')return;try{new QRCode(host,{text:item.value,width:38,height:38,colorDark:item.settings?.fg||'#111827',colorLight:item.settings?.bg||'#ffffff',correctLevel:QRCode.CorrectLevel.M})}catch{}});
  host.querySelectorAll('[data-load]').forEach(btn=>btn.addEventListener('click',()=>loadHistory(Number(btn.dataset.load))));
@@ -76,9 +76,9 @@ $('#resetBtn').addEventListener('click',()=>{Object.assign(state,defaults);$('#s
 $('#downloadBtn').addEventListener('click',download);
 $('#copyBtn').addEventListener('click',async()=>{if(!currentValue){showToast('Complete the fields first.');return}try{await navigator.clipboard.writeText(currentValue);showToast('Destination copied to clipboard')}catch{showToast('Clipboard access unavailable in this browser')}});
 $('#clearHistory').addEventListener('click',()=>{if(!history.length)return;history=[];saveHistory();renderHistory();showToast('Recent creations cleared')});
-$('#themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');try{localStorage.setItem('qr-studio-theme',document.body.classList.contains('dark')?'dark':'retro')}catch{}});
-try{if(localStorage.getItem('qr-studio-theme')==='dark')document.body.classList.add('dark')}catch{}
+$('#themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');try{localStorage.setItem('pixelqr-theme',document.body.classList.contains('dark')?'dark':'retro')}catch{}});
+try{if(localStorage.getItem('pixelqr-theme')==='dark')document.body.classList.add('dark')}catch{}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();download()}});
 renderFields(state.type);renderHistory();update();
-window.QRStudioTest={buildPayload,contrast,defaults,types,presets,getValues};
+window.PixelQRTest={buildPayload,contrast,defaults,types,presets,getValues};
 })();
