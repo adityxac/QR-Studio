@@ -76,8 +76,8 @@ $('#resetBtn').addEventListener('click',()=>{Object.assign(state,defaults);$('#s
 $('#downloadBtn').addEventListener('click',download);
 $('#copyBtn').addEventListener('click',async()=>{if(!currentValue){showToast('Complete the fields first.');return}try{await navigator.clipboard.writeText(currentValue);showToast('Destination copied to clipboard')}catch{showToast('Clipboard access unavailable in this browser')}});
 $('#clearHistory').addEventListener('click',()=>{if(!history.length)return;history=[];saveHistory();renderHistory();showToast('Recent creations cleared')});
-$('#themeToggle').addEventListener('click',()=>{document.body.classList.toggle('light');try{localStorage.setItem('qr-studio-theme',document.body.classList.contains('light')?'light':'dark')}catch{}});
-try{if(localStorage.getItem('qr-studio-theme')==='light')document.body.classList.add('light')}catch{}
+$('#themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');try{localStorage.setItem('qr-studio-theme',document.body.classList.contains('dark')?'dark':'retro')}catch{}});
+try{if(localStorage.getItem('qr-studio-theme')==='dark')document.body.classList.add('dark')}catch{}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();download()}});
 renderFields(state.type);renderHistory();update();
 window.QRStudioTest={buildPayload,contrast,defaults,types,presets,getValues};
