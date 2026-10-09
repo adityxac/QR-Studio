@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020"><meta name="description" content="QR Studio — create, customize and download beautiful, scannable QR codes in seconds.">
+<title>QR Studio — Make it scannable.</title><link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar"><a class="brand" href="#"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>qr<span class="brand-accent">studio</span><small>MAKE IT SCANNABLE.</small></span></a><div class="top-actions"><span class="status-dot"></span><span class="top-label">100% in your browser</span><button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">☼</button></div></header>
+<main>
+<section class="hero"><div class="eyebrow"><span class="spark">✳</span> YOUR IDEAS, ONE SCAN AWAY</div><h1>Make it <span>scannable.</span></h1><p>Turn links, contact details and Wi-Fi into beautiful QR codes.<br class="desktop-only"> Designed by you. Generated right here.</p></section>
+<div class="workspace">
+<section class="panel editor-panel">
+<div class="panel-heading"><div><span class="step-label">01 / CONTENT</span><h2>What are we linking to?</h2></div><span class="tiny-pill">LIVE EDITOR</span></div>
+<div class="type-grid" role="group" aria-label="QR code type"><button class="type-btn active" data-type="url"><span>↗</span>URL</button><button class="type-btn" data-type="text"><span>≡</span>Text</button><button class="type-btn" data-type="email"><span>✉</span>Email</button><button class="type-btn" data-type="phone"><span>⌕</span>Phone</button><button class="type-btn" data-type="wifi"><span>⌁</span>Wi-Fi</button></div>
+<div id="fields" class="fields"></div><div class="section-rule"></div>
+<div class="panel-heading compact"><div><span class="step-label">02 / APPEARANCE</span><h2>Make it yours.</h2></div><button id="resetBtn" class="text-btn">Reset ↺</button></div>
+<div class="control-row"><label for="size">Output size</label><div class="range-wrap"><input id="size" type="range" min="180" max="420" step="20" value="280"><output id="sizeValue">280 px</output></div></div>
+<div class="color-row"><div class="color-control"><label for="fg">Foreground</label><div class="color-picker"><input id="fg" type="color" value="#111827"><span id="fgHex">#111827</span></div></div><div class="color-control"><label for="bg">Background</label><div class="color-picker"><input id="bg" type="color" value="#ffffff"><span id="bgHex">#FFFFFF</span></div></div></div>
+<div class="control-row"><label for="ecc">Error correction</label><select id="ecc"><option value="L">Low · 7%</option><option value="M" selected>Medium · 15%</option><option value="Q">Quartile · 25%</option><option value="H">High · 30%</option></select></div>
+<div class="control-row"><label for="margin">Quiet zone</label><div class="range-wrap"><input id="margin" type="range" min="0" max="4" value="2"><output id="marginValue">2 units</output></div></div>
+<div class="preset-block"><label>Quick styles <span class="muted">(start with a vibe)</span></label><div class="preset-grid"><button class="preset active" data-preset="classic"><span class="swatches"><i style="background:#111827"></i><i style="background:#fff"></i></span>Classic</button><button class="preset" data-preset="midnight"><span class="swatches"><i style="background:#e7eaff"></i><i style="background:#15142b"></i></span>Midnight</button><button class="preset" data-preset="forest"><span class="swatches"><i style="background:#174d3c"></i><i style="background:#f0f7ef"></i></span>Forest</button><button class="preset" data-preset="coral"><span class="swatches"><i style="background:#a12d45"></i><i style="background:#fff4ee"></i></span>Coral</button></div></div>
+<div id="warning" class="warning hidden" role="status"><span>⚠</span><div><strong>Scanability check</strong><p id="warningText"></p></div></div>
+</section>
+<aside class="preview-column"><section class="preview-card"><div class="preview-top"><span class="step-label">LIVE PREVIEW</span><span class="live-indicator"><i></i> UPDATING LIVE</span></div><div class="qr-stage"><div class="qr-frame"><div id="qrcode" aria-label="Generated QR code preview"></div></div><div class="scan-corner tl"></div><div class="scan-corner tr"></div><div class="scan-corner bl"></div><div class="scan-corner br"></div></div><div id="previewCaption" class="preview-caption">Your destination, encoded.</div><div class="preview-meta"><span><i class="meta-dot"></i> <span id="qrTypeLabel">URL CODE</span></span><span id="dimensions">280 × 280 PX</span></div><button id="downloadBtn" class="download-btn"><span>↓</span> Download PNG <kbd>↵</kbd></button><button id="copyBtn" class="secondary-btn">Copy destination</button><p class="privacy-note"><span>◈</span> Generated locally. Your data stays yours.</p></section>
+<section class="history-card"><div class="history-heading"><div><span class="step-label">YOUR WORKSPACE</span><h3>Recent creations <span id="historyCount" class="count-badge">0</span></h3></div><button id="clearHistory" class="text-btn">Clear all</button></div><div id="historyList" class="history-list"><div class="empty-history"><span>◌</span><p>Your next great QR code starts here.</p><small>Generated codes will appear here.</small></div></div></section></aside>
+</div><footer><span>QR STUDIO <span class="footer-dot">●</span> BUILT FOR EVERYDAY CONNECTIONS</span><span>NO ACCOUNT. NO UPLOADS. JUST QR.</span></footer>
+</main></div><div id="toast" class="toast" role="status" aria-live="polite"></div><noscript><p class="noscript">QR Studio needs JavaScript enabled to generate QR codes.</p></noscript>
+</body></html>
