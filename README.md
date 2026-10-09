@@ -1,4 +1,4 @@
-# QR Studio
+# PixelQR
 
 **Make it scannable.** A responsive, browser-first QR Code Generator & Designer built for the GDG on Campus SRM recruitment task.
 
